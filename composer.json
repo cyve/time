@@ -1,0 +1,24 @@
+{
+    "name": "cyve/time",
+    "description": "Time provider",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Cyril Vermande",
+            "email": "cyril@cyrilwebdesign.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.0 || ^7.0"
+    },
+    "autoload": {
+        "psr-4": { "Cyve\\Time\\" : "src/" }
+    },
+    "autoload-dev" : {
+        "psr-4": { "Cyve\\Time\\Test\\" : "tests/" }
+    }
+}
