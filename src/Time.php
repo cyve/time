@@ -4,38 +4,38 @@ namespace Cyve\Time;
 
 class Time implements TimeInterface
 {
-    /**
-     * @var string
-     */
-    private $time;
+    private static ?int $timestamp = null;
 
-    /**
-     * @var \DateTimeZone
-     */
-    private $timezone;
-
-    /**
-     * @param string $time
-     */
-    public function __construct(string $time = 'now', \DateTimeZone $timezone = null)
+    public static function datetime(string $datetime = 'now', \DateTimeZone $timezone = null): \DateTime
     {
-        $this->time = $time;
-        $this->timezone = $timezone;
+        return static::now($timezone)->modify($datetime);
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function now()
+    public static function now(\DateTimeZone $timezone = null): \DateTime
     {
-        return new \DateTime($this->time, $this->timezone);
+        $time = static::$timestamp ?: time();
+        $timezone = $timezone ?: new \DateTimeZone(date_default_timezone_get());
+
+        return \DateTime::createFromFormat('U', $time)->setTimezone($timezone);
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function today()
+    public static function today(): \DateTime
     {
-        return (new \DateTime($this->time, $this->timezone))->setTime(0, 0, 0);
+        return static::now()->modify('today');
+    }
+
+    public static function tomorrow(): \DateTime
+    {
+        return static::now()->modify('tomorrow');
+    }
+
+    public static function yesterday(): \DateTime
+    {
+        return static::now()->modify('yesterday');
+    }
+
+    public static function setTimestamp(int $timestamp): void
+    {
+        static::$timestamp = $timestamp;
     }
 }
